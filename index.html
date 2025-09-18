@@ -1,6 +1,15 @@
 <!doctype html>
 <html lang="es" data-bs-theme="auto">
 <head>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+  .chart-container {
+    position: relative;
+    height: 300px;
+    margin-bottom: 1.5rem;
+  }
+</style>
   <meta charset="utf-8" />
   <title>Mini To-Do — TypeScript → Cards + Bootstrap</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -110,7 +119,19 @@
         </div>
       </div>
     </div>
-
+          <!-- SECCIÓN DE GRÁFICA -->
+      <div class="card shadow-sm border-0 mb-4">
+        <div class="card-header bg-transparent border-0">
+          <h5 class="card-title mb-0">
+            <i class="bi bi-bar-chart-fill text-primary me-2"></i>Estadísticas de Tareas
+          </h5>
+        </div>
+        <div class="card-body">
+          <div class="chart-container">
+            <canvas id="taskChart"></canvas>
+          </div>
+        </div>
+      </div>
     <!-- GRID de cards de tareas -->
     <div id="list" class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-3"></div>
 

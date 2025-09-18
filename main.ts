@@ -1,5 +1,6 @@
 // ===== Tipos =====
 type Filter = "all" | "active" | "done";
+declare var Chart: any;
 
 interface Task {
   id: string;
@@ -105,6 +106,61 @@ function viewTask(id: string): void {
     `Estado: ${t.done ? "Completada" : "Activa"}\n` +
     `Creada: ${created}`
   );
+}
+
+let taskChart: any = null;
+
+// Inicializar la gráfica
+function initChart(): void {
+  const ctx = document.getElementById('taskChart') as HTMLCanvasElement;
+  
+  if (ctx) {
+    taskChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['Activas', 'Completadas', 'Total'],
+        datasets: [{
+          label: 'Cantidad de Tareas',
+          data: [0, 0, 0],
+          backgroundColor: [
+            'rgba(255, 193, 7, 0.7)',
+            'rgba(25, 135, 84, 0.7)',
+            'rgba(13, 110, 253, 0.7)'
+          ],
+          borderColor: [
+            'rgb(255, 193, 7)',
+            'rgb(25, 135, 84)',
+            'rgb(13, 110, 253)'
+          ],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: {
+              stepSize: 1
+            }
+          }
+        }
+      }
+    });
+  }
+}
+
+// Actualizar la gráfica
+function updateChart(): void {
+  if (taskChart) {
+    const total = state.tasks.length;
+    const done = state.tasks.filter(t => t.done).length;
+    const active = total - done;
+    
+    taskChart.data.datasets[0].data = [active, done, total];
+    taskChart.update();
+  }
 }
 
 function editTaskTitle(id: string): void {
@@ -255,6 +311,9 @@ function render(): void {
 
   // Guardar después de actualizar la vista/estado
   saveTasks();
+
+  // Actualizar la gráfica
+  updateChart();
 }
 
 // ===== Eventos =====
@@ -285,5 +344,8 @@ if (state.tasks.length === 0) {
     { id: uid(), title: "Probar filtros y cards",      done: false, createdAt: Date.now() - 20000 },
   ];
 }
+
+// Inicializar la gráfica
+initChart();
 
 render();
