@@ -1,0 +1,202 @@
+/* =========================================================
+   stylesheet.css — UI moderna “en cajas” para Bootstrap
+   ========================================================= */
+
+/* ---------- Variables (adapta colores si quieres) ---------- */
+:root{
+  --bg: #0f1321;                /* fondo base */
+  --bg-2: #131a2e;              /* fondo panel */
+  --ink: #e9edf6;               /* texto primario */
+  --muted: #aab4c8;             /* texto secundario */
+  --brand: #6ea8fe;             /* primario */
+  --brand-2: #9ec0ff;           /* primario claro */
+  --ok: #39d353;                /* éxito */
+  --danger: #ff6b6b;            /* peligro */
+  --warn: #ffcf6f;              /* warning */
+  --radius-xl: 20px;            /* radios generales */
+  --shadow: 0 18px 40px rgba(8,12,31,.35);
+  --shadow-soft: 0 12px 26px rgba(8,12,31,.25);
+  --border: 1px solid rgba(255,255,255,.08);
+  --glass: rgba(255,255,255,.06);
+  --glass-strong: rgba(255,255,255,.10);
+}
+
+@media (prefers-color-scheme: light){
+  :root{
+    --bg: #f2f4ff;
+    --bg-2: #ffffff;
+    --ink: #14223a;
+    --muted: #5b6b86;
+    --brand: #2b6fff;
+    --brand-2: #5b8bff;
+    --ok: #1f9e55;
+    --danger: #e03131;
+    --warn: #ffb03a;
+    --shadow: 0 18px 40px rgba(20, 30, 60, .16);
+    --shadow-soft: 0 12px 26px rgba(20, 30, 60, .12);
+    --border: 1px solid rgba(16, 24, 40, .08);
+    --glass: rgba(255,255,255,.75);
+    --glass-strong: rgba(255,255,255,.92);
+  }
+}
+
+/* ---------- Reset + base ---------- */
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  color: var(--ink);
+  background:
+    radial-gradient(1200px 700px at -10% -10%, rgba(110,168,254,.18), transparent 60%),
+    radial-gradient(1000px 600px at 110% -10%, rgba(91,139,255,.18), transparent 60%),
+    conic-gradient(from 180deg at 50% -20%, #0000 0 25%, rgba(255,255,255,.06) 0 50%, #0000 0 75%, rgba(255,255,255,.04) 0) 0 0/22px 22px,
+    var(--bg);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* ---------- Superficie principal “en caja” (la .container) ---------- */
+.container{
+  background: linear-gradient(180deg, var(--glass), var(--glass-strong));
+  backdrop-filter: saturate(1.2) blur(10px);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow);
+  border: var(--border);
+  padding: clamp(16px, 2vw, 24px);
+  margin-block: clamp(16px, 3vh, 28px);
+}
+
+/* Header */
+.h4, h1, h2, h3 { color: var(--ink); }
+.text-secondary { color: var(--muted) !important; }
+
+/* ---------- Cards globales ---------- */
+.card{
+  background: linear-gradient(180deg, rgba(255,255,255,.7), rgba(255,255,255,.55));
+  border: var(--border);
+  border-radius: 16px;
+  box-shadow: var(--shadow-soft);
+  transition: transform .08s ease, box-shadow .2s ease, border-color .2s ease;
+}
+[data-bs-theme="auto"] .card { backdrop-filter: blur(8px); }
+.card:hover{ transform: translateY(-2px); box-shadow: var(--shadow); }
+.card-header, .card-footer{ background: transparent; border-color: rgba(255,255,255,.15); }
+
+/* ---------- Card de acciones ---------- */
+.input-group .form-control{
+  padding: .95rem 1rem;
+  border-radius: 12px;
+  border-color: rgba(125,139,168,.25);
+  background: rgba(255,255,255,.85);
+}
+.input-group .input-group-text{
+  border-radius: 12px 0 0 12px;
+  border-color: rgba(125,139,168,.25);
+  background: rgba(255,255,255,.6);
+}
+.input-group .btn{ border-radius: 0 12px 12px 0; }
+
+/* ---------- Botones (micro-interacciones) ---------- */
+.btn{
+  transition: transform .08s ease, box-shadow .2s ease, background-color .2s ease, border-color .2s ease;
+}
+.btn:active{ transform: translateY(1px) scale(.99); }
+.btn-primary{
+  background: linear-gradient(180deg, var(--brand), var(--brand-2));
+  border: none;
+  box-shadow: 0 10px 22px color-mix(in oklab, var(--brand) 35%, transparent);
+}
+.btn-outline-danger:hover{ background: color-mix(in oklab, var(--danger) 12%, transparent); }
+.btn-outline-warning{ border-color: color-mix(in oklab, var(--warn) 50%, #888); color: color-mix(in oklab, var(--warn) 70%, #222); }
+.btn-outline-warning:hover{ background: color-mix(in oklab, var(--warn) 16%, transparent); }
+
+/* Filtros (estado activo resaltado) */
+.btn-group [data-filter].active{
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--brand) 35%, #fff) inset;
+  border-color: color-mix(in oklab, var(--brand) 55%, #ced4da);
+}
+
+/* ---------- Badges / Contador ---------- */
+.badge.text-bg-light{
+  background: linear-gradient(180deg, #eef3ff, #e7ecff);
+  color: #2b3a55;
+  box-shadow: 0 2px 8px rgba(43,111,255,.18);
+}
+
+/* ---------- Cards de estadísticas ---------- */
+#stats-row .card{
+  position: relative;
+  overflow: hidden;
+}
+#stats-row .card::after{
+  content: "";
+  position: absolute;
+  inset: -30% -30% auto auto;
+  width: 180px;
+  height: 180px;
+  border-radius: 999px;
+  background: radial-gradient(closest-side, color-mix(in oklab, var(--brand) 40%, transparent), transparent 70%);
+  filter: blur(18px);
+  opacity: .45;
+  pointer-events: none;
+}
+
+/* ---------- Grid de tareas (cards) ---------- */
+#list .card{
+  background: linear-gradient(180deg, rgba(255,255,255,.86), rgba(255,255,255,.72));
+}
+.task-title{ word-break: break-word; }
+.card.border-success{ border-color: color-mix(in oklab, var(--ok) 60%, #86efac) !important; }
+.card.opacity-75 .task-title{ text-decoration: line-through; opacity: .85; }
+
+/* Hover claro para acciones */
+.card-footer .btn{ box-shadow: none; }
+.card-footer .btn:hover{
+  box-shadow: 0 8px 18px rgba(0,0,0,.08);
+}
+
+/* ---------- Empty state ---------- */
+#empty.d-none{ display: none !important; }
+#empty i{ opacity: .8; }
+
+/* ---------- Checkbox (ligero tuneo) ---------- */
+.form-check-input{
+  width: 1.1rem; height: 1.1rem; cursor: pointer;
+  border-color: rgba(125,139,168,.45);
+}
+.form-check-input:checked{
+  background-color: var(--ok);
+  border-color: color-mix(in oklab, var(--ok) 80%, #000);
+}
+
+/* ---------- Accesibilidad y foco ---------- */
+:focus-visible{
+  outline: 3px solid color-mix(in oklab, var(--brand) 65%, #fff);
+  outline-offset: 2px;
+  border-radius: 10px;
+}
+
+/* ---------- Scrollbar (WebKit) ---------- */
+*::-webkit-scrollbar { width: 10px; height: 10px; }
+*::-webkit-scrollbar-thumb{
+  background: color-mix(in oklab, var(--brand) 35%, #cfd8ea);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+/* ---------- Animaciones suaves ---------- */
+@keyframes popIn { from { transform: scale(.98); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+#list .card{ animation: popIn .16s ease both; }
+
+@media (prefers-reduced-motion: reduce){
+  *{ animation: none !important; transition: none !important; }
+}
+
+/* ---------- Responsivo ---------- */
+@media (max-width: 576px){
+  .container{ padding: 14px; }
+  .btn-group [data-filter]{ font-size: .95rem; }
+}
+
+/* ---------- Pequeños toques ---------- */
+small.fw-normal{ letter-spacing: .2px; }
